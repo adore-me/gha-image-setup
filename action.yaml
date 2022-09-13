@@ -1,0 +1,35 @@
+name: 'AdoreMe Tech Setup PHP Image Setup action'
+description: 'Sets the image address to use'
+inputs:
+  registry:
+    description: 'Docker registry'
+    required: true
+    default: 'quay.io'
+  repository:
+    description: 'Docker repository'
+    required: true
+    default: 'adoreme'
+  name:
+    description: 'Docker image name'
+    required: true
+    default: 'nginx-fpm-alpine'
+  tag:
+    description: 'The image to use. Takes precedence over the IMAGE_TAG environment variable.'
+    required: false
+    default: ''
+outputs:
+  image:
+    description: 'Fully qualified image address'
+    value: '${{ steps.set-image-address.outputs.image }}'
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Set Image Address'
+      id: set-image-address
+      run: $GITHUB_ACTION_PATH/image.sh
+      shell: bash
+      env:
+        INPUT_REGISTRY: ${{ inputs.registry }}
+        INPUT_REPOSITORY: ${{ inputs.repository }}
+        INPUT_NAME: ${{ inputs.name }}
+        INPUT_TAG: ${{ inputs.tag }}
