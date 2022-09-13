@@ -1,5 +1,5 @@
-name: 'AdoreMe Tech Setup PHP Image Setup action'
-description: 'Sets the image address to use'
+name: 'AdoreMe Tech Image Setup action'
+description: 'Sets the image to use'
 inputs:
   registry:
     description: 'Docker registry'
