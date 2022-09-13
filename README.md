@@ -1,7 +1,7 @@
 # gha-image-setup
 
 ## Description
-Composes a fully qualified PHP image address.
+Composes a fully qualified image address.
 
 ## Inputs 
 | Key                   | Required  | Default            | Description                                                                                |
