@@ -9,7 +9,7 @@ Composes a fully qualified image address.
 | **registry**   | **true**  | `quay.io`          | Docker registry to use.                                                                    |
 | **repository** | **true**  | `adoreme`          | Docker repository to use.                                                                  |
 | **name**       | **true**  | `nginx-fpm-alpine` | Image name.                                                                                |
-| **tag**        | **false** | `''`               | Image tag. If env variable `IMAGE_TAG` is set you don't need to specify it again in input.<br />:warning: Input takes precedence. |
+| **tag**        | **false** | `N/A`              | Image tag. If env variable `IMAGE_TAG` is set you don't need to specify it again in input.<br />:warning: Input takes precedence. |
 
 ## Outputs
 | Key                   | Description                                                                 |
