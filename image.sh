@@ -12,16 +12,13 @@ if [ -n "$IMAGE_TAG" ]; then
   ACTION_IMAGE_TAG="$IMAGE_TAG"
 fi
 
-if [ -n "$INPUT_TAG" ]; then
-  ACTION_IMAGE_TAG="$INPUT_TAG"
-fi
-
 if [ -z "$ACTION_IMAGE_TAG" ]; then
   echo "::error::No image tag provided"
   exit 1
 fi
 IMAGE="$INPUT_REGISTRY/$INPUT_REPOSITORY/$INPUT_NAME:$ACTION_IMAGE_TAG"
 
-
 echo -e "${BL}Info:${NC} Set docker image to: ${GR}$IMAGE${NC}"
-echo "::set-output name=image::$IMAGE"
+echo "project-image=$IMAGE" >> "$GITHUB_OUTPUT"
+
+echo "PROJECT_IMAGE=$IMAGE" >> "$GITHUB_ENV"
