@@ -13,17 +13,28 @@ inputs:
     description: 'Docker image name'
     required: true
     default: 'nginx-fpm-alpine'
-  tag:
-    description: 'The image to use. Takes precedence over the IMAGE_TAG environment variable.'
-    required: false
-    default: ''
+  config-location:
+    description: 'Location of the config file'
+    required: true
+    default: './ci/config.yaml'
 outputs:
-  image:
+  project-image:
     description: 'Fully qualified image address'
-    value: '${{ steps.set-image-address.outputs.image }}'
+    value: '${{ steps.set-image-address.outputs.project-image }}'
 runs:
   using: 'composite'
   steps:
+    - name: 'Check config'
+      run: $GITHUB_ACTION_PATH/check-config.sh
+      shell: bash
+      with:
+        INPUT_CONFIG_LOCATION: ${{ inputs.config-location }}
+    - name: 'Get image tag from CI config'
+      id: project-image-config
+      uses: jbutcher5/read-yaml@main
+      with:
+        file: ${{ inputs.config-location }}
+        key-path: '["image-tag"]'
     - name: 'Set Image Address'
       id: set-image-address
       run: $GITHUB_ACTION_PATH/image.sh
@@ -32,4 +43,4 @@ runs:
         INPUT_REGISTRY: ${{ inputs.registry }}
         INPUT_REPOSITORY: ${{ inputs.repository }}
         INPUT_NAME: ${{ inputs.name }}
-        INPUT_TAG: ${{ inputs.tag }}
+        IMAGE_TAG: ${{ steps.project-image-config.outputs.data }}

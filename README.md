@@ -1,20 +1,23 @@
 # gha-image-setup
 
 ## Description
-Composes a fully qualified image address.
+Composes a fully qualified image address.  
+ℹ The `tag` of the image is expected to be provided through a config file in your project, `./ci/config.yaml` (can be configured through `config-location` input) with key `image-tag`
 
 ## Inputs 
-| Key            | Required  | Default            | Description                                                                                |
-|----------------|-----------|--------------------|--------------------------------------------------------------------------------------------|
-| **registry**   | **true**  | `quay.io`          | Docker registry to use.                                                                    |
-| **repository** | **true**  | `adoreme`          | Docker repository to use.                                                                  |
-| **name**       | **true**  | `nginx-fpm-alpine` | Image name.                                                                                |
-| **tag**        | **false** | `N/A`              | Image tag. If env variable `IMAGE_TAG` is set you don't need to specify it again in input.<br />:warning: Input takes precedence. |
+| Key                 | Required  | Default            | Description                                                |
+|---------------------|-----------|--------------------|------------------------------------------------------------|
+| **registry**        | **true**  | `quay.io`          | Docker registry to use.                                    |
+| **repository**      | **true**  | `adoreme`          | Docker repository to use.                                  |
+| **name**            | **true**  | `nginx-fpm-alpine` | Image name.                                                |
+| **config-location** | **true**  | `./ci/config.yaml` | Path of the config file containing `image-tag` in project. |
 
 ## Outputs
 | Key                   | Description                                                                 |
 |-----------------------|-----------------------------------------------------------------------------|
-| **image-address**     | Fully qualified image address.                                              |
+| **project-image**     | Fully qualified image address.                                              |
+
+ℹ Also sets a `PROJECT_IMAGE` env variable globally available.
 
 ### Example of step configuration and usage:
 ```yaml
@@ -22,9 +25,7 @@ steps:
   - name: 'Run Image Setup'
     id: image-setup
     uses: adore-me/gha-image-setup@master
-    with:
-      tag: SOME_IMAGE_TAG # Not needed if `env.IMAGE_TAG` is set.
   - name: 'Print image setup output'
     run: |
-      echo "Image address: ${{ steps.image-setup.outputs.image-address }}"
+      echo "Image address: ${{ steps.image-setup.outputs.project-image }}"
 ```
