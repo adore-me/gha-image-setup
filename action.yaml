@@ -27,7 +27,7 @@ runs:
     - name: 'Check config'
       run: $GITHUB_ACTION_PATH/check-config.sh
       shell: bash
-      with:
+      env:
         INPUT_CONFIG_LOCATION: ${{ inputs.config-location }}
     - name: 'Get image tag from CI config'
       id: project-image-config
