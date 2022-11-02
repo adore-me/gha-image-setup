@@ -12,7 +12,7 @@ if [ -n "$INPUT_TAG" ]; then
 
   echo "get-tag-from-config=false" >> "$GITHUB_OUTPUT"
 
-  return
+  exit 0
 fi
 
 echo -e "${BL}Info:${NC} Checking for project config file..."
