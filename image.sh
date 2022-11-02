@@ -20,5 +20,7 @@ IMAGE="$INPUT_REGISTRY/$INPUT_REPOSITORY/$INPUT_NAME:$ACTION_IMAGE_TAG"
 
 echo -e "${BL}Info:${NC} Set docker image to: ${GR}$IMAGE${NC}"
 echo "project-image=$IMAGE" >> "$GITHUB_OUTPUT"
+echo "project-image-tag=$ACTION_IMAGE_TAG" >> "$GITHUB_OUTPUT"
 
 echo "PROJECT_IMAGE=$IMAGE" >> "$GITHUB_ENV"
+echo "PROJECT_IMAGE_TAG=$ACTION_IMAGE_TAG" >> "$GITHUB_ENV"

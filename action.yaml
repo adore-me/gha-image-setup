@@ -1,6 +1,10 @@
 name: 'AdoreMe Tech Image Setup action'
 description: 'Sets the image to use'
 inputs:
+  tag:
+    description: 'The tag of the image to use'
+    required: false
+    default: ''
   registry:
     description: 'Docker registry'
     required: true
@@ -21,6 +25,9 @@ outputs:
   project-image:
     description: 'Fully qualified image address'
     value: '${{ steps.set-image-address.outputs.project-image }}'
+  project-image-tag:
+    description: 'Image tag'
+    value: '${{ steps.set-image-address.outputs.project-image-tag }}'
 runs:
   using: 'composite'
   steps:
@@ -29,8 +36,10 @@ runs:
       shell: bash
       env:
         INPUT_CONFIG_LOCATION: ${{ inputs.config-location }}
+        INPUT_TAG: ${{ inputs.tag }}
     - name: 'Get image tag from CI config'
       id: project-image-config
+      if: ${{ steps.check-config.outputs.get-tag-from-config == 'true' }}
       uses: jbutcher5/read-yaml@main
       with:
         file: ${{ inputs.config-location }}
@@ -43,4 +52,4 @@ runs:
         INPUT_REGISTRY: ${{ inputs.registry }}
         INPUT_REPOSITORY: ${{ inputs.repository }}
         INPUT_NAME: ${{ inputs.name }}
-        IMAGE_TAG: ${{ steps.project-image-config.outputs.data }}
+        IMAGE_TAG: ${{ steps.check-config.outputs.get-tag-from-config == 'true' && steps.project-image-config.outputs.data || inputs.tag }}
