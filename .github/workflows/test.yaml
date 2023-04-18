@@ -18,5 +18,14 @@ jobs:
           config-location: ./test-data/config.yaml
       - name: Output
         run: |
-          echo "Project Image: ${{ steps.test.outputs.data.project-image }}"
-          echo "Project Image Tag: ${{ steps.test.outputs.data.project-image-tag }}"
+          echo "Project Image: ${{ steps.test.outputs.project-image }}"
+          echo "Project Image Tag: ${{ steps.test.outputs.project-image-tag }}"
+      - name: Mark test
+        run: |
+          # This is the value from the config.yaml file
+          if [ ${{ steps.test.outputs.project-image-tag }} == 'php-7.4.3-v1.0.0' ]; then
+            echo "Test passed"
+          else
+            echo "Test failed"
+            exit 1
+          fi
