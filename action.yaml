@@ -41,7 +41,7 @@ runs:
     - name: 'Get image tag from CI config'
       id: project-image-config
       if: ${{ steps.check-config.outputs.get-tag-from-config == 'true' }}
-      uses: jbutcher5/read-yaml@main
+      uses: adore-me/read-yaml@v1.0.0
       with:
         file: ${{ inputs.config-location }}
         key-path: '["image-tag"]'
