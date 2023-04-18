@@ -1,0 +1,22 @@
+name: Test workflow
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+    branches:
+      - master
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+      - name: Test
+        id: test
+        uses: ./
+        with:
+          config-location: ./test-data/config.yaml
+      - name: Output
+        run: |
+          echo "Project Image: ${{ steps.test.outputs.data.project-image }}"
+          echo "Project Image Tag: ${{ steps.test.outputs.data.project-image-tag }}"
