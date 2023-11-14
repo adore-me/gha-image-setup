@@ -41,10 +41,9 @@ runs:
     - name: 'Get image tag from CI config'
       id: project-image-config
       if: ${{ steps.check-config.outputs.get-tag-from-config == 'true' }}
-      uses: adore-me/read-yaml@v1.0.0
+      uses: actions-tools/yaml-outputs@v2
       with:
-        file: ${{ inputs.config-location }}
-        key-path: '["image-tag"]'
+        file-path:  ${{ inputs.config-location }}
     - name: 'Set Image Address'
       id: set-image-address
       run: $GITHUB_ACTION_PATH/image.sh
@@ -53,4 +52,4 @@ runs:
         INPUT_REGISTRY: ${{ inputs.registry }}
         INPUT_REPOSITORY: ${{ inputs.repository }}
         INPUT_NAME: ${{ inputs.name }}
-        IMAGE_TAG: ${{ steps.check-config.outputs.get-tag-from-config == 'true' && steps.project-image-config.outputs.data || inputs.tag }}
+        IMAGE_TAG: ${{ steps.check-config.outputs.get-tag-from-config == 'true' && steps.project-image-config.outputs.image-tag || inputs.tag }}
